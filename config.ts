@@ -1,0 +1,1 @@
+export const GOD_API: string = 'https://localhost:5000/api/v1/';

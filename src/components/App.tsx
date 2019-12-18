@@ -1,15 +1,14 @@
 import React from 'react';
+import Game from './game/Game';
 
 import '../styles/index.css';
 
-class App extends React.PureComponent {
-	render() {
-		return (
-			<div>
-				<h1>Hello World!</h1>
-			</div>
-		);
-	}
-}
+const App: React.FC = () => {
+  return (
+    <div>
+      <Game />
+    </div>
+  );
+};
 
 export default App;
