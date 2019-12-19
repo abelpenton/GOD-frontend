@@ -6,11 +6,11 @@ import * as ACTIONS from '../../../store/actions/actions';
 const GamePresentation: React.FC<any> = ({startGame}) => {
     const [stateGameReducer, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
 
-    const handlePlayerName1 = (name) => {
+    const handlePlayerName1 = (name: string) => {
         dispatchGameReducer(ACTIONS.add_player1(name));
     };
 
-    const handlePlayerName2 = (name) => {
+    const handlePlayerName2 = (name: string) => {
         dispatchGameReducer(ACTIONS.add_player2(name));
     };
 
@@ -26,7 +26,6 @@ const GamePresentation: React.FC<any> = ({startGame}) => {
         {name: stateGameReducer.player1Name, 'function': handlePlayerName1},
         {name: stateGameReducer.player2Name, 'function': handlePlayerName2}
     ];
-
 
     return (
     <div>
