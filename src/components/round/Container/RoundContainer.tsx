@@ -1,10 +1,11 @@
 import React, {useReducer, useState, useEffect} from 'react';
-import { Redirect } from 'react-router';
-import * as RoundReducer from '../../store/reducers/round_reducer';
-import * as ACTIONS from '../../store/actions/actions';
-import Rounds from './Rounds';
+import * as RoundReducer from '../../../store/reducers/round_reducer';
+import * as ACTIONS from '../../../store/actions/actions';
+import EndGame from '../../game/Presentations/EndGame';
+import Rounds from '../Presentation/Rounds';
+import PresentationRound from '../Presentation/RoundPresentation';
 
-const config = require('../../../config');
+const config = require('../../../../config');
 
 const getGameId = (): number => {
     const from: number = location.pathname.indexOf('gameId=') + 7;
@@ -21,9 +22,17 @@ const options = {
     }
 };
 
-const moves: string[] = ['Rock', 'Papper', 'Scissors'];
+const getPostOption = (body) => {
+    return {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+};
 
-const Round: React.FC = () => {
+const RoundContainer: React.FC = () => {
     const [stateRoundReducer, dispatchRoundReducer] = useReducer(RoundReducer.RoundReducer, RoundReducer.initialState);
     const [gameId] = useState(getGameId());
 
@@ -47,37 +56,19 @@ const Round: React.FC = () => {
     };
 
     const newRound = () => {
-        const postOptions = {
-            method: 'POST',
-            body: JSON.stringify({
-                'Move': stateRoundReducer.currentMove,
-                'GameId': gameId
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        fetch(`${config.GOD_API}/game/NewRound`, postOptions)
-            .then(response => {
+        fetch(`${config.GOD_API}/game/NewRound`, getPostOption({
+            'Move': stateRoundReducer.currentMove,
+            'GameId': gameId
+        })).then(response => {
                 dispatchRoundReducer(ACTIONS.add_round(JSON.stringify(response.json())['Id']));
                 dispatchRoundReducer(ACTIONS.set_current_player_number(2));
             });
     };
 
     const completeRound = () => {
-        const postOptions = {
-            method: 'POST',
-            body: JSON.stringify({
-                'lastMove': stateRoundReducer.currentMove
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        fetch(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, postOptions)
-            .then(response => {
+        fetch(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, getPostOption({
+            'lastMove': stateRoundReducer.currentMove
+        })).then(response => {
                 const game = JSON.stringify(response.json());
                 if (game['EndGame']) {
                     dispatchRoundReducer(ACTIONS.end_game());
@@ -96,6 +87,10 @@ const Round: React.FC = () => {
         }
     };
 
+    const handleMove = (moves, event) => {
+        dispatchRoundReducer(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
+    };
+
     useEffect(() => {
         getPlayer();
         loadRounds();
@@ -104,27 +99,17 @@ const Round: React.FC = () => {
     return (
         <div>
             {!stateRoundReducer.endGame && <div>
-                <label>Round {stateRoundReducer.rounds.length + 1}</label>
-                <br/>
-                <br/>
-                <label>{stateRoundReducer.currentPlayerName}</label>
-                <br/>
-                <br/>
-                <label>Select Move</label>
-                <select onChange={e => dispatchRoundReducer(ACTIONS.set_current_move(moves.indexOf(e.target.value) + 1))}>
-                    {moves.map((value, index) => {
-                        // tslint:disable-next-line: no-unused-expression
-                    return (<option key={index + 1} value={value}>{value}</option>);
-                    })}
-                </select>
-                <br/>
-                <br/>
-                <button type='button' onClick={proccessRound}>Ok</button>
+                <PresentationRound
+                    roundNumer={stateRoundReducer.rounds.length + 1}
+                    currentPlayer={stateRoundReducer.currentPlayerName}
+                    handleMove={handleMove}
+                    proccessRound={proccessRound}
+                />
                 {stateRoundReducer.rounds.length > 0 && <Rounds rounds={stateRoundReducer.rounds}/>}
             </div>}
-            {stateRoundReducer.endGame && <Redirect to={`/end-game`}/>}
+            {stateRoundReducer.endGame && <EndGame winnerName={stateRoundReducer.winnerName}/>}
         </div>
     );
 };
 
-export default Round;
+export default RoundContainer;
