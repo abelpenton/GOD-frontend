@@ -2,6 +2,7 @@ import React, {useReducer, useState, useEffect} from 'react';
 import { Redirect } from 'react-router';
 import * as RoundReducer from '../../store/reducers/round_reducer';
 import * as ACTIONS from '../../store/actions/actions';
+import Rounds from './Rounds';
 
 const config = require('../../../config');
 
@@ -20,24 +21,22 @@ const options = {
     }
 };
 
+const moves: string[] = ['Rock', 'Papper', 'Scissors'];
+
 const Round: React.FC = () => {
     const [stateRoundReducer, dispatchRoundReducer] = useReducer(RoundReducer.RoundReducer, RoundReducer.initialState);
     const [gameId] = useState(getGameId());
-
-    const moves: string[] = ['Rock', 'Papper', 'Scissors'];
 
     const loadRounds = () => {
         fetch(`${config.GOD_API}/game/GetRoundsGame/${gameId}`, options)
             .then(response => {
                 const gameRounds = JSON.stringify(response.json())['Rounds'];
                 const roundUpdates = [];
-                gameRounds.map(({PlayerRoundWinnerName}, index) => {
+                gameRounds.map(({PlayerRoundWinnerName}) => {
                     // tslint:disable-next-line: no-array-mutation
-                    roundUpdates.push({
-                        roundNumber: index,
-                        roundWinner: PlayerRoundWinnerName
-                    });
+                    roundUpdates.push(PlayerRoundWinnerName);
                 });
+                dispatchRoundReducer(ACTIONS.load_rounds(roundUpdates));
             });
     };
 
@@ -102,7 +101,6 @@ const Round: React.FC = () => {
         loadRounds();
     }, [stateRoundReducer.currentPlayerNumber]);
 
-
     return (
         <div>
             {!stateRoundReducer.endGame && <div>
@@ -122,6 +120,7 @@ const Round: React.FC = () => {
                 <br/>
                 <br/>
                 <button type='button' onClick={proccessRound}>Ok</button>
+                {stateRoundReducer.rounds.length > 0 && <Rounds rounds={stateRoundReducer.rounds}/>}
             </div>}
             {stateRoundReducer.endGame && <Redirect to={`/end-game`}/>}
         </div>

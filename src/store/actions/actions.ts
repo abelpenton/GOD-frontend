@@ -71,7 +71,7 @@ export const set_winner_game = (name: string) => {
     };
 };
 
-export const load_rounds = (rounds: any[]) => {
+export const load_rounds = (rounds: string[]) => {
     return {
         type: ACTION_TYPES.SET_ROUNDS,
         payload: rounds
