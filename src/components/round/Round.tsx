@@ -1,7 +1,9 @@
 import React, {useReducer, useState, useEffect} from 'react';
-const config = require('../../../config');
+import { Redirect } from 'react-router';
 import * as RoundReducer from '../../store/reducers/round_reducer';
 import * as ACTIONS from '../../store/actions/actions';
+
+const config = require('../../../config');
 
 const getGameId = (): number => {
     const from: number = location.pathname.indexOf('gameId=') + 7;
@@ -121,6 +123,7 @@ const Round: React.FC = () => {
                 <br/>
                 <button type='button' onClick={proccessRound}>Ok</button>
             </div>}
+            {stateRoundReducer.endGame && <Redirect to={`/end-game`}/>}
         </div>
     );
 };
