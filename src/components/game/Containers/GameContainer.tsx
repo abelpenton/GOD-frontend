@@ -6,9 +6,9 @@ import GamePresentation from '../Presentations/GamePresentation';
 const config = require('../../../../config');
 
 const GameContainer: React.FC = () => {
-    const [_, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
+    const [, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
 
-    const startGame = (playerName1, playerName2): void => {
+    const startGame = (playerName1: string, playerName2: string) => {
         const options = {
             method: 'POST',
             body: JSON.stringify({
@@ -20,8 +20,8 @@ const GameContainer: React.FC = () => {
             }
         };
 
-        fetch(`${config.GOD_API}/game/NewGame`, options)
-            .then(response => dispatchGameReducer(ACTIONS.add_game(JSON.stringify(response.json())['gameId'])));
+        fetch(`${config.GOD_API}/Game/NewGame`, options)
+            .then(async response => dispatchGameReducer(ACTIONS.add_game(JSON.stringify(await response.json())['Id'])));
 
     };
     return (

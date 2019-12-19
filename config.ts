@@ -1,1 +1,1 @@
-export const GOD_API: string = 'http://localhost:5000/api/v1';
+export const GOD_API: string = 'https://localhost:5001/api/v1';
