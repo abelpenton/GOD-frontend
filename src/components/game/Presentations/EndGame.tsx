@@ -1,7 +1,7 @@
 
 import React, {useReducer, useState} from 'react';
 import { Redirect } from 'react-router';
-import * as RoundReducer from '../../store/reducers/round_reducer';
+import * as RoundReducer from '../../../store/reducers/round_reducer';
 
 const EndGame: React.FC = () => {
     const [stateRoundReducer] = useReducer(RoundReducer.RoundReducer, RoundReducer.initialState);

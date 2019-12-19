@@ -1,11 +1,9 @@
 import React, {useReducer} from 'react';
 import { Redirect } from 'react-router';
-import * as GameReducer from '../../store/reducers/game_reducer';
-import * as ACTIONS from '../../store/actions/actions';
+import * as GameReducer from '../../../store/reducers/game_reducer';
+import * as ACTIONS from '../../../store/actions/actions';
 
-const config = require('../../../config');
-
-const Game: React.FC = () => {
+const GamePresentation: React.FC<any> = ({startGame}) => {
     const [stateGameReducer, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
 
     const handlePlayerName1 = (name) => {
@@ -14,23 +12,6 @@ const Game: React.FC = () => {
 
     const handlePlayerName2 = (name) => {
         dispatchGameReducer(ACTIONS.add_player2(name));
-    };
-
-    const startGame = (): void => {
-        const options = {
-            method: 'POST',
-            body: JSON.stringify({
-                'Player1': stateGameReducer.player1Name,
-                'Player2': stateGameReducer.player2Name
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        fetch(`${config.GOD_API}/game/NewGame`, options)
-            .then(response => dispatchGameReducer(ACTIONS.add_game(JSON.stringify(response.json())['gameId'])));
-
     };
 
     const validate = (): boolean => {
@@ -57,10 +38,10 @@ const Game: React.FC = () => {
                 );
             })
         }
-        <button type='button' onClick={startGame}>Start Game</button>
+        <button type='button' onClick={startGame(stateGameReducer.player1Name, stateGameReducer.player2Name)}>Start Game</button>
         {validate() && <Redirect to={`/gameId=${stateGameReducer.gameId}/round`}/>}
     </div>
     );
 };
 
-export default Game;
+export default GamePresentation;

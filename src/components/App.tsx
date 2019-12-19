@@ -1,6 +1,6 @@
 import React from 'react';
-import Game from './game/Game';
-import EndGame from './game/EndGame';
+import GameContainer from './game/Containers/GameContainer';
+import EndGame from './game/Presentations/EndGame';
 import Round from './round/Round';
 import {Switch, Route} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
@@ -15,7 +15,7 @@ const App: React.FC = () => {
             <Round />
         </Route>
         <Route path='/'>
-            <Game />
+            <GameContainer />
         </Route>
         <Route path='/end-game'>
             <EndGame />
