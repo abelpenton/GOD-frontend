@@ -24,7 +24,7 @@ const GameContainer: React.FC = () => {
 
         fetch(`${config.GOD_API}/Game/NewGame`, options)
             .then(async response => {
-                const result = JSON.stringify((await response.json()))['id'];
+                const result = (await response.json())['id'];
                 dispatchGameReducer(ACTIONS.add_game(result));
             });
     };

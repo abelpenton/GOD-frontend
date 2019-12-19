@@ -77,3 +77,8 @@ export const load_rounds = (rounds: string[]) => {
         payload: rounds
     };
 };
+
+export interface IAction {
+    type: string;
+    payload: any;
+}

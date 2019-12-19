@@ -15,19 +15,23 @@ const getGameId = (): number => {
     return Number.parseInt(location.pathname.substring(from, to - from + 7));
 };
 
-const options = {
+const options: RequestInit = {
     method: 'GET',
+    mode: 'no-cors',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
     }
 };
 
-const getPostOption = (body) => {
+const getPostOption = (body: any): RequestInit => {
     return {
         method: 'POST',
         body: JSON.stringify(body),
+        mode: 'no-cors',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
     };
 };
@@ -37,11 +41,11 @@ const RoundContainer: React.FC = () => {
     const [gameId] = useState(getGameId());
 
     const loadRounds = () => {
-        fetch(`${config.GOD_API}/game/GetRoundsGame/${gameId}`, options)
-            .then(response => {
-                const gameRounds = JSON.stringify(response.json())['Rounds'];
-                const roundUpdates = [];
-                gameRounds.map(({PlayerRoundWinnerName}) => {
+        fetch(`${config.GOD_API}/game/GetGame/${gameId}`, options)
+            .then(async response => {
+                const gameRounds = (await response.json())['Rounds'];
+                const roundUpdates: any[] = [];
+                gameRounds.map(({PlayerRoundWinnerName}: any) => {
                     // tslint:disable-next-line: no-array-mutation
                     roundUpdates.push(PlayerRoundWinnerName);
                 });
@@ -51,16 +55,16 @@ const RoundContainer: React.FC = () => {
 
     const getPlayer = () => {
         fetch(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, options)
-            .then(response => dispatchRoundReducer(
-                ACTIONS.set_current_player_name(JSON.stringify(response.json())['PlayerName'])));
+            .then(async response => dispatchRoundReducer(
+                ACTIONS.set_current_player_name((await response.json())['PlayerName'])));
     };
 
     const newRound = () => {
         fetch(`${config.GOD_API}/game/NewRound`, getPostOption({
             'Move': stateRoundReducer.currentMove,
             'GameId': gameId
-        })).then(response => {
-                dispatchRoundReducer(ACTIONS.add_round(JSON.stringify(response.json())['Id']));
+        })).then(async response => {
+                dispatchRoundReducer(ACTIONS.add_round((await response.json())['Id']));
                 dispatchRoundReducer(ACTIONS.set_current_player_number(2));
             });
     };
@@ -68,8 +72,8 @@ const RoundContainer: React.FC = () => {
     const completeRound = () => {
         fetch(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, getPostOption({
             'lastMove': stateRoundReducer.currentMove
-        })).then(response => {
-                const game = JSON.stringify(response.json());
+        })).then(async response => {
+                const game = (await response.json());
                 if (game['EndGame']) {
                     dispatchRoundReducer(ACTIONS.end_game());
                     dispatchRoundReducer(ACTIONS.set_winner_game(game['PlayerGameWinnerName']));
@@ -87,7 +91,7 @@ const RoundContainer: React.FC = () => {
         }
     };
 
-    const handleMove = (moves, event) => {
+    const handleMove = (moves: string[], event: any) => {
         dispatchRoundReducer(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
     };
 

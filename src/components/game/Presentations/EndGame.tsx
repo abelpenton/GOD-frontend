@@ -1,7 +1,6 @@
 
-import React, {useReducer, useState} from 'react';
+import React, {useState} from 'react';
 import { Redirect } from 'react-router';
-import * as RoundReducer from '../../../store/reducers/round_reducer';
 
 const EndGame: React.FC<any> = ({winnerName}) => {
     const [newGame, setNewGame] = useState(false);
