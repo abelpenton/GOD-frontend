@@ -3,7 +3,7 @@ import * as ACTION_TYPES from '../actions/action_types';
 export const initialState = {
     player1Name: '',
     player2Name: '',
-    gameId: 123
+    gameId: undefined
 };
 
 export const GameReducer = (state = initialState, action) => {

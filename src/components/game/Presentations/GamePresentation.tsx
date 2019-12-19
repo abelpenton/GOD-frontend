@@ -18,10 +18,15 @@ const GamePresentation: React.FC<any> = ({startGame}) => {
         return stateGameReducer.player1Name && stateGameReducer.player2Name && stateGameReducer.gameId !== undefined;
     };
 
+    const handleNewGame = () => {
+        startGame(stateGameReducer.player1Name, stateGameReducer.player2Name);
+    };
+
     const Players = [
         {name: stateGameReducer.player1Name, 'function': handlePlayerName1},
         {name: stateGameReducer.player2Name, 'function': handlePlayerName2}
     ];
+
 
     return (
     <div>
@@ -38,7 +43,7 @@ const GamePresentation: React.FC<any> = ({startGame}) => {
                 );
             })
         }
-        <button type='button' onClick={startGame(stateGameReducer.player1Name, stateGameReducer.player2Name)}>Start Game</button>
+        <button type='button' onClick={handleNewGame}>Start Game</button>
         {validate() && <Redirect to={`/gameId=${stateGameReducer.gameId}/round`}/>}
     </div>
     );
