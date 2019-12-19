@@ -9,20 +9,24 @@ const GameContainer: React.FC = () => {
     const [, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
 
     const startGame = (playerName1: string, playerName2: string) => {
-        const options = {
+        const options: RequestInit = {
             method: 'POST',
             body: JSON.stringify({
                 'Player1': playerName1,
                 'Player2': playerName2
             }),
+            mode: 'no-cors',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
         };
 
         fetch(`${config.GOD_API}/Game/NewGame`, options)
-            .then(async response => dispatchGameReducer(ACTIONS.add_game(JSON.stringify(await response.json())['Id'])));
-
+            .then(async response => {
+                const result = JSON.stringify((await response.json()))['id'];
+                dispatchGameReducer(ACTIONS.add_game(result));
+            });
     };
     return (
         <GamePresentation startGame={startGame}/>
