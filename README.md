@@ -67,4 +67,6 @@ There is a list of thing I would have liked to do:
 
 >1- Use React-Material for a better desing.
 
->2- Comment the code.
+>2- Build a docker compose for a better setup
+
+>3- Comment the code.
