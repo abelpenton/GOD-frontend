@@ -2,7 +2,7 @@
 
 ## Summary
 
-Game of Drone is a web version of the famous game `Rock-Papper-Scissor` where two players try to conquer each other. The frontend version was implemented using modern technologies like `ReactJS`, `React-Router`, `TypeScript`, `Babel` and `Webpack`. The main idea in the implementation was to build an architecture based on the ```Presentation``` and ```Container``` components both functional components for the use of `React Hooks`. This game also contain a backend version implemented in `.Net Core` and you can find it [here](https://github.com/abelpenton/GOD-backend.git).
+Game of Drone is a web version of the famous game `Rock-Papper-Scissor` where two players try to conquer each other. The frontend version was implemented using modern technologies like `ReactJS`, `React-Router`, `TypeScript`, `Babel` and `Webpack`. The main idea in the implementation was to build an architecture based on the ```Presentation``` and ```Container``` components both functional components for the use of `React Hooks`. This game also contain a backend version implemented in `.Net Core` and it can be found [here](https://github.com/abelpenton/GOD-backend.git).
 
 ## Setup
 
@@ -10,7 +10,7 @@ Game of Drone is a web version of the famous game `Rock-Papper-Scissor` where tw
 >npm install
 >npm start
 ```
-## GOD Architecture
+## GOD's Architecture
 The implementation uses `React Hooks` for each component, mainly `useReducer` and `useState`. The idea of `useReducer` is to have a state management such as `Redux` were you can send actions and modify a `state`. In the `Store` folder you can find the type of `actions` and `reducers` for the game GOD:
 
 ```
