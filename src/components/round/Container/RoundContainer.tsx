@@ -28,19 +28,6 @@ const RoundContainer: React.FC = () => {
     const [gameId] = useState(getGameId());
     const [rounds, setRounds] = useState([]);
 
-    const loadRounds = () => {
-        axios.get(`${config.GOD_API}/game/GetGame/${gameId}`, options)
-            .then(async response => {
-                const gameRounds = response.data.Rounds;
-                const roundUpdates: any[] = [];
-                gameRounds && gameRounds.map(({PlayerRoundWinnerName}: any) => {
-                    // tslint:disable-next-line: no-array-mutation
-                    roundUpdates.push(PlayerRoundWinnerName);
-                });
-                dispatchRoundReducer(ACTIONS.load_rounds(roundUpdates));
-            });
-    };
-
     const getPlayer = async () => {
         const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, options);
         dispatchRoundReducer(ACTIONS.set_current_player_name(response.data.playerName));
@@ -68,7 +55,6 @@ const RoundContainer: React.FC = () => {
                     roundUpdates.push(playerRoundWinnerName);
                 });
                 setRounds(roundUpdates);
-                console.log(response.data);
                 if (response.data.endGame) {
                     dispatchRoundReducer(ACTIONS.end_game());
                     dispatchRoundReducer(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
@@ -92,7 +78,6 @@ const RoundContainer: React.FC = () => {
 
     useEffect(() => {
         getPlayer();
-        loadRounds();
     }, [stateRoundReducer.currentPlayerNumber]);
 
     return (
