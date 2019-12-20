@@ -4,6 +4,7 @@ import * as ACTIONS from '../../../store/actions/actions';
 import EndGame from '../../game/Presentations/EndGame';
 import Rounds from '../Presentation/Rounds';
 import PresentationRound from '../Presentation/RoundPresentation';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const config = require('../../../../config');
 
@@ -15,25 +16,11 @@ const getGameId = (): number => {
     return Number.parseInt(location.pathname.substring(from, to - from + 7));
 };
 
-const options: RequestInit = {
-    method: 'GET',
-    mode: 'no-cors',
+const options: AxiosRequestConfig = {
     headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json-patch+json',
         'Accept': 'application/json'
     }
-};
-
-const getPostOption = (body: any): RequestInit => {
-    return {
-        method: 'POST',
-        body: JSON.stringify(body),
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    };
 };
 
 const RoundContainer: React.FC = () => {
@@ -41,11 +28,11 @@ const RoundContainer: React.FC = () => {
     const [gameId] = useState(getGameId());
 
     const loadRounds = () => {
-        fetch(`${config.GOD_API}/game/GetGame/${gameId}`, options)
+        axios.get(`${config.GOD_API}/game/GetGame/${gameId}`, options)
             .then(async response => {
-                const gameRounds = (await response.json())['Rounds'];
+                const gameRounds = response.data.Rounds;
                 const roundUpdates: any[] = [];
-                gameRounds.map(({PlayerRoundWinnerName}: any) => {
+                gameRounds && gameRounds.map(({PlayerRoundWinnerName}: any) => {
                     // tslint:disable-next-line: no-array-mutation
                     roundUpdates.push(PlayerRoundWinnerName);
                 });
@@ -53,30 +40,30 @@ const RoundContainer: React.FC = () => {
             });
     };
 
-    const getPlayer = () => {
-        fetch(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, options)
-            .then(async response => dispatchRoundReducer(
-                ACTIONS.set_current_player_name((await response.json())['PlayerName'])));
+    const getPlayer = async () => {
+        const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, options);
+        dispatchRoundReducer(ACTIONS.set_current_player_name(response.data.playerName));
     };
 
     const newRound = () => {
-        fetch(`${config.GOD_API}/game/NewRound`, getPostOption({
+        axios.post(`${config.GOD_API}/game/NewRound`, {
             'Move': stateRoundReducer.currentMove,
             'GameId': gameId
-        })).then(async response => {
-                dispatchRoundReducer(ACTIONS.add_round((await response.json())['Id']));
+        }, options)
+        .then(response => {
+                dispatchRoundReducer(ACTIONS.add_round(response.data.id));
                 dispatchRoundReducer(ACTIONS.set_current_player_number(2));
             });
     };
 
     const completeRound = () => {
-        fetch(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, getPostOption({
+        axios.put(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, {
             'lastMove': stateRoundReducer.currentMove
-        })).then(async response => {
-                const game = (await response.json());
-                if (game['EndGame']) {
+        }, options)
+        .then(response => {
+                if (response.data.EndGame) {
                     dispatchRoundReducer(ACTIONS.end_game());
-                    dispatchRoundReducer(ACTIONS.set_winner_game(game['PlayerGameWinnerName']));
+                    dispatchRoundReducer(ACTIONS.set_winner_game(response.data.PlayerGameWinnerName));
                 } else {
                     dispatchRoundReducer(ACTIONS.set_current_player_number(1));
                 }

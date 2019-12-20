@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import * as GameReducer from '../../../store/reducers/game_reducer';
 import * as ACTIONS from '../../../store/actions/actions';
 
-const GamePresentation: React.FC<any> = ({startGame}) => {
+const GamePresentation: React.FC<any> = ({startGame, gameId}) => {
     const [stateGameReducer, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
 
     const handlePlayerName1 = (name: string) => {
@@ -15,7 +15,7 @@ const GamePresentation: React.FC<any> = ({startGame}) => {
     };
 
     const validate = (): boolean => {
-        return stateGameReducer.player1Name && stateGameReducer.player2Name && stateGameReducer.gameId !== undefined;
+        return stateGameReducer.player1Name && stateGameReducer.player2Name && gameId !== undefined;
     };
 
     const handleNewGame = () => {
@@ -43,7 +43,7 @@ const GamePresentation: React.FC<any> = ({startGame}) => {
             })
         }
         <button type='button' onClick={handleNewGame}>Start Game</button>
-        {validate() && <Redirect to={`/gameId=${stateGameReducer.gameId}/round`}/>}
+        {validate() && <Redirect to={`/gameId=${gameId}/round`}/>}
     </div>
     );
 };

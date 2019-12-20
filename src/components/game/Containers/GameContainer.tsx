@@ -1,35 +1,29 @@
-import React, {useReducer} from 'react';
-import * as GameReducer from '../../../store/reducers/game_reducer';
-import * as ACTIONS from '../../../store/actions/actions';
+import React, {useState} from 'react';
 import GamePresentation from '../Presentations/GamePresentation';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const config = require('../../../../config');
 
 const GameContainer: React.FC = () => {
-    const [, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
+    const [gameId, setGameId] = useState(undefined);
 
     const startGame = (playerName1: string, playerName2: string) => {
-        const options: RequestInit = {
-            method: 'POST',
-            body: JSON.stringify({
-                'Player1': playerName1,
-                'Player2': playerName2
-            }),
-            mode: 'no-cors',
+        const options: AxiosRequestConfig = {
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json-patch+json',
                 'Accept': 'application/json'
             }
         };
-
-        fetch(`${config.GOD_API}/Game/NewGame`, options)
-            .then(async response => {
-                const result = (await response.json())['id'];
-                dispatchGameReducer(ACTIONS.add_game(result));
+        axios.post(`${config.GOD_API}/Game/NewGame`, {
+                    'Player1': playerName1,
+                    'Player2': playerName2
+                    }, options)
+                .then(response => {
+                    setGameId(response.data.id);
             });
     };
     return (
-        <GamePresentation startGame={startGame}/>
+        <GamePresentation startGame={startGame} gameId={gameId}/>
     );
 };
 

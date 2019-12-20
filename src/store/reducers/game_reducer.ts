@@ -4,7 +4,7 @@ import {IAction} from '../actions/actions';
 export const initialState = {
     player1Name: '',
     player2Name: '',
-    gameId: 10
+    gameId: undefined
 };
 
 export const GameReducer = (state = initialState, action: IAction) => {
