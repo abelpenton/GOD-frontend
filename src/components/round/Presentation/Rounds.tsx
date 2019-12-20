@@ -8,14 +8,16 @@ const Rounds: React.FC<any> = ( {rounds} ) => {
                 <h2>Round</h2>
                 <h2 style={{marginLeft: '1rem'}}>Winner</h2>
             </div>
-            {rounds.map((item, index) => {
-                return (
-                    <div key={index + 1}>
-                        <label>{index + 1}</label>
-                        <label>{item}</label>
-                    </div>
-                );
-            })}
+            <div style={{marginLeft: '53rem'}}>
+                {rounds.map((item: string, index: number) => {
+                    return (
+                        <div key={index + 1}>
+                            <label>{index + 1}</label>
+                            <label style={{marginLeft: '3rem'}}>{item}</label>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };

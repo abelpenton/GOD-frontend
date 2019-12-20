@@ -4,7 +4,7 @@ const moves: string[] = ['Rock', 'Papper', 'Scissors'];
 
 const RoundPresentation: React.FC<IProps> = (props: IProps) => {
     return (
-        <div>
+        <div style={{marginLeft: '15rem', marginTop: '5rem'}}>
             <label>Round {props.roundNumer}</label>
             <br/>
             <br/>
@@ -12,7 +12,7 @@ const RoundPresentation: React.FC<IProps> = (props: IProps) => {
             <br/>
             <br/>
             <label>Select Move</label>
-            <select onChange={e => props.handleMove(moves, e)}>
+            <select style={{marginLeft: '2rem'}} onChange={e => props.handleMove(moves, e)}>
                 {moves.map((value, index) => {
                     // tslint:disable-next-line: no-unused-expression
                 return (<option key={index + 1} value={value}>{value}</option>);

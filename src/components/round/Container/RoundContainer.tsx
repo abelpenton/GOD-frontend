@@ -26,6 +26,7 @@ const options: AxiosRequestConfig = {
 const RoundContainer: React.FC = () => {
     const [stateRoundReducer, dispatchRoundReducer] = useReducer(RoundReducer.RoundReducer, RoundReducer.initialState);
     const [gameId] = useState(getGameId());
+    const [rounds, setRounds] = useState([]);
 
     const loadRounds = () => {
         axios.get(`${config.GOD_API}/game/GetGame/${gameId}`, options)
@@ -61,9 +62,16 @@ const RoundContainer: React.FC = () => {
             'lastMove': stateRoundReducer.currentMove
         }, options)
         .then(response => {
-                if (response.data.EndGame) {
+                const roundUpdates: any[] = [];
+                response.data.rounds.map(({playerRoundWinnerName}: any) => {
+                    // tslint:disable-next-line: no-array-mutation
+                    roundUpdates.push(playerRoundWinnerName);
+                });
+                setRounds(roundUpdates);
+                console.log(response.data);
+                if (response.data.endGame) {
                     dispatchRoundReducer(ACTIONS.end_game());
-                    dispatchRoundReducer(ACTIONS.set_winner_game(response.data.PlayerGameWinnerName));
+                    dispatchRoundReducer(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
                 } else {
                     dispatchRoundReducer(ACTIONS.set_current_player_number(1));
                 }
@@ -91,12 +99,12 @@ const RoundContainer: React.FC = () => {
         <div>
             {!stateRoundReducer.endGame && <div>
                 <PresentationRound
-                    roundNumer={stateRoundReducer.rounds.length + 1}
+                    roundNumer={rounds.length + 1}
                     currentPlayer={stateRoundReducer.currentPlayerName}
                     handleMove={handleMove}
                     proccessRound={proccessRound}
                 />
-                {stateRoundReducer.rounds.length > 0 && <Rounds rounds={stateRoundReducer.rounds}/>}
+                <Rounds rounds={rounds}/>
             </div>}
             {stateRoundReducer.endGame && <EndGame winnerName={stateRoundReducer.winnerName}/>}
         </div>
