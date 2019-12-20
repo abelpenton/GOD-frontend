@@ -1,10 +1,12 @@
 import React from 'react';
 
+import '../../../styles/index.css';
+
 const moves: string[] = ['Rock', 'Papper', 'Scissors'];
 
 const RoundPresentation: React.FC<IProps> = (props: IProps) => {
     return (
-        <div style={{marginLeft: '15rem', marginTop: '5rem'}}>
+        <div id='round-presentation'>
             <label>Round {props.roundNumer}</label>
             <br/>
             <br/>
@@ -12,7 +14,7 @@ const RoundPresentation: React.FC<IProps> = (props: IProps) => {
             <br/>
             <br/>
             <label>Select Move</label>
-            <select style={{marginLeft: '2rem'}} onChange={e => props.handleMove(moves, e)}>
+            <select id='select-id' onChange={e => props.handleMove(moves, e)}>
                 {moves.map((value, index) => {
                     // tslint:disable-next-line: no-unused-expression
                 return (<option key={index + 1} value={value}>{value}</option>);

@@ -1,14 +1,16 @@
 import React from 'react';
 
+import '../../../styles/index.css';
+
 const Rounds: React.FC<any> = ( {rounds} ) => {
     return (
         <div>
             <h1>Score</h1>
-            <div style={{display: 'flex', marginLeft: '50rem'}}>
+            <div id='score'>
                 <h2>Round</h2>
-                <h2 style={{marginLeft: '1rem'}}>Winner</h2>
+                <h2 id='winner'>Winner</h2>
             </div>
-            <div style={{marginLeft: '53rem'}}>
+            <div id='rounds'>
                 {rounds.map((item: string, index: number) => {
                     return (
                         <div key={index + 1}>

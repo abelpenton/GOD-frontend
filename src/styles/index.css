@@ -2,3 +2,33 @@ h1 {
     color: #292727;
     text-align: center;
 }
+
+#round-presentation {
+    margin-left: 15rem;
+    margin-top: 5rem;
+}
+
+#select-id {
+    margin-left: 2rem;
+}
+
+#score {
+    display: flex;
+    margin-left: 50rem
+}
+
+#winner {
+    margin-left: 1rem;
+}
+
+#rounds {
+    margin-left: 53rem;
+}
+
+#end-game {
+    margin-left: 44rem;
+}
+
+#play-again {
+    margin-left: 5rem;
+}
