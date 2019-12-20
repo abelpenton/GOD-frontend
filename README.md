@@ -53,13 +53,13 @@ Looking for a good practice we can found the `Container-Presentation` architectu
 For new feature we need keep the architecture so you have to follow the next steps:
 
 
->1- Add new kind of actions in [Action Types](`https://github.com/abelpenton/GOD-frontend/blob/master/src/store/actions/action_types.ts`).
+>1- Add new kind of actions in [Action Types](`/src/store/actions/action_types.ts`).
 
->2- Add the behavior of the new actions [Actions](`https://github.com/abelpenton/GOD-frontend/blob/master/src/store/actions/actions.ts`).
+>2- Add the behavior of the new actions [Actions](`/src/store/actions/actions.ts`).
 
->3- Add the state and the reducer for new feature [Reducer](`https://github.com/abelpenton/GOD-frontend/tree/master/src/store/reducers`).
+>3- Add the state and the reducer for new feature [Reducer](`/src/store/reducers/`).
 
->4- Add the `Presentation-Container` components for new feature [Components](`https://github.com/abelpenton/GOD-frontend/tree/master/src/components`).
+>4- Add the `Presentation-Container` components for new feature [Components](`/src/components`).
 
 
 ## To Improve
