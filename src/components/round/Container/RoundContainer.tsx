@@ -4,7 +4,7 @@ import * as ACTIONS from '../../../store/actions/actions';
 import EndGame from '../../game/Presentations/EndGame';
 import Rounds from '../Presentation/Rounds';
 import PresentationRound from '../Presentation/RoundPresentation';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 const config = require('../../../../config');
 
@@ -16,20 +16,13 @@ const getGameId = (): number => {
     return Number.parseInt(location.pathname.substring(from, to - from + 7));
 };
 
-const options: AxiosRequestConfig = {
-    headers: {
-        'Content-Type': 'application/json-patch+json',
-        'Accept': 'application/json'
-    }
-};
-
 const RoundContainer: React.FC = () => {
     const [stateRoundReducer, dispatchRoundReducer] = useReducer(RoundReducer.RoundReducer, RoundReducer.initialState);
     const [gameId] = useState(getGameId());
     const [rounds, setRounds] = useState([]);
 
     const getPlayer = async () => {
-        const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, options);
+        const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, config.options);
         dispatchRoundReducer(ACTIONS.set_current_player_name(response.data.playerName));
     };
 
@@ -37,7 +30,7 @@ const RoundContainer: React.FC = () => {
         axios.post(`${config.GOD_API}/game/NewRound`, {
             'Move': stateRoundReducer.currentMove,
             'GameId': gameId
-        }, options)
+        }, config.options)
         .then(response => {
                 dispatchRoundReducer(ACTIONS.add_round(response.data.id));
                 dispatchRoundReducer(ACTIONS.set_current_player_number(2));
@@ -47,7 +40,7 @@ const RoundContainer: React.FC = () => {
     const completeRound = () => {
         axios.put(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, {
             'lastMove': stateRoundReducer.currentMove
-        }, options)
+        }, config.options)
         .then(response => {
                 const roundUpdates: any[] = [];
                 response.data.rounds.map(({playerRoundWinnerName}: any) => {

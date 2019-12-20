@@ -1,4 +1,5 @@
 import * as ACTION_TYPES from '../actions/action_types';
+import { IAction } from 'store/actions/actions';
 
 export const initialState = {
     currentPlayerName: '',
@@ -10,7 +11,7 @@ export const initialState = {
     rounds: []
 };
 
-export const RoundReducer = (state = initialState, action) => {
+export const RoundReducer = (state = initialState, action: IAction) => {
     // tslint:disable-next-line: switch-default
     switch (action.type) {
         case ACTION_TYPES.SET_CURRENT_PLAYER:
