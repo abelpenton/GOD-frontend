@@ -4,7 +4,6 @@ import RoundContainer from './round/Container/RoundContainer';
 import {Switch, Route} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import '../styles/index.css';
-import { END_GAME } from '../store/actions/action_types';
 
 const App: React.FC = () => {
   return (
