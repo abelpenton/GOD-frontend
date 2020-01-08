@@ -16,7 +16,6 @@ const RoundPresentation: React.FC<IProps> = (props: IProps) => {
             <label>Select Move</label>
             <select id='select-id' onChange={e => props.handleMove(moves, e)}>
                 {moves.map((value, index) => {
-                    // tslint:disable-next-line: no-unused-expression
                 return (<option key={index + 1} value={value}>{value}</option>);
                 })}
             </select>

@@ -12,7 +12,6 @@ const getGameId = (): number => {
     const from: number = location.pathname.indexOf('gameId=') + 7;
     const to: number = location.pathname.lastIndexOf('/') + 1;
 
-    // tslint:disable-next-line: radix
     return Number.parseInt(location.pathname.substring(from, to - from + 7));
 };
 
@@ -42,9 +41,8 @@ const RoundContainer: React.FC = () => {
             'lastMove': stateRoundReducer.currentMove
         }, config.options)
         .then(response => {
-                const roundUpdates: any[] = [];
-                response.data.rounds.map(({playerRoundWinnerName}: any) => {
-                    // tslint:disable-next-line: no-array-mutation
+                const roundUpdates: never[] = [];
+                response.data.rounds.map(({playerRoundWinnerName}: never) => {
                     roundUpdates.push(playerRoundWinnerName);
                 });
                 setRounds(roundUpdates);

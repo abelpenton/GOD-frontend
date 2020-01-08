@@ -11,7 +11,6 @@ export const initialState = {
 };
 
 export const RoundReducer = (state = initialState, action: IAction) => {
-    // tslint:disable-next-line: switch-default
     switch (action.type) {
         case ACTION_TYPES.SET_CURRENT_PLAYER:
             return {

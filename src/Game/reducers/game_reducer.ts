@@ -7,7 +7,6 @@ export const initialState = {
 };
 
 export const GameReducer = (state = initialState, action: IAction) => {
-    // tslint:disable-next-line: switch-default
     switch (action.type) {
         case ACTION_TYPES.SET_PLAYER1_NAME:
             return {
