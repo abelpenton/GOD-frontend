@@ -1,30 +1,10 @@
-import React, {useReducer} from 'react';
+import React from 'react';
 import { Redirect } from 'react-router';
-import * as GameReducer from '../../../store/reducers/game_reducer';
-import * as ACTIONS from '../../../store/actions/actions';
 
-const GamePresentation: React.FC<any> = ({startGame, gameId}) => {
-    const [stateGameReducer, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
-
-    const handlePlayerName1 = (name: string) => {
-        dispatchGameReducer(ACTIONS.add_player1(name));
-    };
-
-    const handlePlayerName2 = (name: string) => {
-        dispatchGameReducer(ACTIONS.add_player2(name));
-    };
-
-    const validate = (): boolean => {
-        return stateGameReducer.player1Name && stateGameReducer.player2Name && gameId !== undefined;
-    };
-
-    const handleNewGame = () => {
-        startGame(stateGameReducer.player1Name, stateGameReducer.player2Name);
-    };
-
+const GamePresentation: React.FC<any> = (props: IProps) => {
     const Players = [
-        {name: stateGameReducer.player1Name, 'function': handlePlayerName1},
-        {name: stateGameReducer.player2Name, 'function': handlePlayerName2}
+        {name: props.player1Name, 'function': props.handlePlayerName1},
+        {name: props.player2Name, 'function': props.handlePlayerName2}
     ];
 
     return (
@@ -42,10 +22,20 @@ const GamePresentation: React.FC<any> = ({startGame, gameId}) => {
                 );
             })
         }
-        <button type='button' onClick={handleNewGame}>Start Game</button>
-        {validate() && <Redirect to={`/gameId=${gameId}/round`}/>}
+        <button type='button' onClick={props.startGame}>Start Game</button>
+        {props.validate() && <Redirect to={`/gameId=${props.gameId}/round`}/>}
     </div>
     );
 };
+
+interface IProps {
+    gameId: number;
+    player1Name: string;
+    player2Name: string;
+    startGame: any;
+    handlePlayerName1: any;
+    handlePlayerName2: any;
+    validate: any;
+}
 
 export default GamePresentation;

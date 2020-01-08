@@ -1,23 +1,48 @@
-import React, {useState} from 'react';
+import React, { useState, useReducer } from 'react';
 import GamePresentation from '../Presentations/GamePresentation';
 import axios from 'axios';
+import * as GameReducer from '../../../store/reducers/game_reducer';
+import * as ACTIONS from '../../../store/actions/actions';
 
 const config = require('../../../../config');
 
 const GameContainer: React.FC = () => {
     const [gameId, setGameId] = useState(undefined);
 
-    const startGame = (playerName1: string, playerName2: string) => {
+    const [stateGameReducer, dispatchGameReducer] = useReducer(GameReducer.GameReducer, GameReducer.initialState);
+
+    const handlePlayerName1 = (name: string) => {
+        dispatchGameReducer(ACTIONS.add_player1(name));
+    };
+
+    const handlePlayerName2 = (name: string) => {
+        dispatchGameReducer(ACTIONS.add_player2(name));
+    };
+
+    const validate = (): boolean => {
+        return stateGameReducer.player1Name && stateGameReducer.player2Name && gameId !== undefined;
+    };
+
+    const startGame = () => {
         axios.post(`${config.GOD_API}/Game/NewGame`, {
-                    'Player1': playerName1,
-                    'Player2': playerName2
-                    }, config.options)
-                .then(response => {
-                    setGameId(response.data.id);
+            'Player1': stateGameReducer.player1Name,
+            'Player2': stateGameReducer.player2Name
+        }, config.options)
+            .then(response => {
+                setGameId(response.data.id);
             });
     };
+
     return (
-        <GamePresentation startGame={startGame} gameId={gameId}/>
+        <GamePresentation
+            startGame={startGame}
+            gameId={gameId}
+            handlePlayerName1={handlePlayerName1}
+            handlePlayerName2={handlePlayerName2}
+            validate={validate}
+            player1Name={stateGameReducer.player1Name}
+            player2Name={stateGameReducer.player2Name}
+        />
     );
 };
 
