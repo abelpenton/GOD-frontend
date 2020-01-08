@@ -1,5 +1,4 @@
 import * as ACTION_TYPES from '../actions/action_types';
-import { IAction } from 'store/actions/actions';
 
 export const initialState = {
     currentPlayerName: '',
@@ -50,13 +49,12 @@ export const RoundReducer = (state = initialState, action: IAction) => {
                 winnerName: action.payload
             };
 
-        case ACTION_TYPES.SET_ROUNDS:
-            return {
-                ...state,
-                rounds: action.payload
-            };
-
         default:
             return state;
     }
 };
+
+interface IAction {
+    type: string;
+    payload: any;
+}

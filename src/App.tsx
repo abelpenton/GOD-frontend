@@ -1,6 +1,6 @@
 import React from 'react';
-import GameContainer from './game/Containers/GameContainer';
-import RoundContainer from './round/Container/RoundContainer';
+import GameContainer from './Game/components/Containers/GameContainer';
+import RoundContainer from './Round/components/Containers/RoundContainer';
 import {Switch, Route} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import '../styles/index.css';

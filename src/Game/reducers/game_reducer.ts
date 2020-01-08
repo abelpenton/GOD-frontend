@@ -1,5 +1,4 @@
 import * as ACTION_TYPES from '../actions/action_types';
-import {IAction} from '../actions/actions';
 
 export const initialState = {
     player1Name: '',
@@ -22,13 +21,12 @@ export const GameReducer = (state = initialState, action: IAction) => {
                 player2Name: action.payload
             };
 
-        case ACTION_TYPES.SET_GAME_ID:
-            return {
-                ...state,
-                gameId: action.payload
-            };
-
         default:
             return state;
     }
 };
+
+interface IAction {
+    type: string;
+    payload: any;
+}

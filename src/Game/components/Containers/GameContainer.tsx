@@ -1,8 +1,8 @@
 import React, { useState, useReducer } from 'react';
 import GamePresentation from '../Presentations/GamePresentation';
 import axios from 'axios';
-import * as GameReducer from '../../../store/reducers/game_reducer';
-import * as ACTIONS from '../../../store/actions/actions';
+import * as GameReducer from '../../reducers/game_reducer';
+import * as ACTIONS from '../../actions/actions';
 
 const config = require('../../../../config');
 

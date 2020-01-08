@@ -1,7 +1,7 @@
 import React, {useReducer, useState, useEffect} from 'react';
-import * as RoundReducer from '../../../store/reducers/round_reducer';
-import * as ACTIONS from '../../../store/actions/actions';
-import EndGame from '../../game/Presentations/EndGame';
+import * as RoundReducer from '../../reducers/round_reducer';
+import * as ACTIONS from '../../actions/actions';
+import EndGame from '../../../Game/components/Presentations/EndGame';
 import Rounds from '../Presentation/Rounds';
 import PresentationRound from '../Presentation/RoundPresentation';
 import axios from 'axios';
