@@ -1,6 +1,6 @@
 import React, {useReducer, Dispatch} from 'react';
-import { IRoundState, roundInitialState } from '../state';
-import { RoundReducer } from '../reducer';
+import { IRoundState, roundInitialState } from './state';
+import { RoundReducer } from './reducer';
 
 const RoundContext = React.createContext<{state: IRoundState, dispatch: Dispatch<any>}>({
     state: roundInitialState,

@@ -4,8 +4,8 @@ import EndGame from '../../../Game/components/Presentations/EndGame';
 import Rounds from '../Presentation/Rounds';
 import RoundPresentation from '../Presentation/RoundPresentation';
 import axios from 'axios';
-import { GameContext } from '../../../Game/context/context';
-import { RoundContext } from '../../context/context';
+import { GameContext } from '../../../Game/context';
+import { RoundContext } from '../../context';
 const config = require('../../../../config');
 
 const RoundContainer: React.FC = () => {

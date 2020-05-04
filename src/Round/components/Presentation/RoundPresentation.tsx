@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import '../../../../styles/index.css';
-import { RoundContext } from '../../context/context';
+import { RoundContext } from '../../context';
 
 const moves: string[] = ['Rock', 'Papper', 'Scissors'];
 

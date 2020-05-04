@@ -4,8 +4,8 @@ import RoundContainer from './Round/components/Containers/RoundContainer';
 import {Switch, Route} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import '../styles/index.css';
-import { GameProvider} from './Game/context/context';
-import { RoundProvider } from './Round/context/context';
+import { GameProvider} from './Game/context';
+import { RoundProvider } from './Round/context';
 
 const App: React.FC = () => {
   return (

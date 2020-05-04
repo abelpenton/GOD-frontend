@@ -1,7 +1,7 @@
 
 import React, {useState, useContext} from 'react';
 import { Redirect } from 'react-router';
-import { RoundContext } from '../../../Round/Context/context';
+import { RoundContext } from '../../../Round/context';
 
 const EndGame: React.FC<any> = () => {
     const {state: {winnerName}} = useContext(RoundContext);

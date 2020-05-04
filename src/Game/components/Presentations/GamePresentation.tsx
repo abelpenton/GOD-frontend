@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router';
-import { GameContext } from '../../context/context';
+import { GameContext } from '../../context';
 
 const GamePresentation: React.FC<any> = (props: IProps) => {
     const { state } = useContext(GameContext);

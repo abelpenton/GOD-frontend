@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import GamePresentation from '../Presentations/GamePresentation';
 import axios from 'axios';
 import * as ACTIONS from '../../actions/actions';
-import { GameContext } from '../../context/context';
+import { GameContext } from '../../context';
 const config = require('../../../../config');
 
 const GameContainer: React.FC = () => {
