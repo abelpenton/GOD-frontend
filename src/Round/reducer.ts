@@ -1,16 +1,7 @@
-import * as ACTION_TYPES from '../actions/action_types';
+import * as ACTION_TYPES from './actions/action_types';
+import { roundInitialState, IRoundState } from './state';
 
-export const initialState = {
-    currentPlayerName: '',
-    currentPlayerNumber: 1,
-    currentMove: 1,
-    roundId: 0,
-    endGame: false,
-    winnerName: '',
-    rounds: []
-};
-
-export const RoundReducer = (state = initialState, action: IAction) => {
+export const RoundReducer = (state: IRoundState = roundInitialState, action: IAction) => {
     switch (action.type) {
         case ACTION_TYPES.SET_CURRENT_PLAYER:
             return {

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router';
+import { GameContext } from '../../context/context';
 
 const GamePresentation: React.FC<any> = (props: IProps) => {
+    const { state } = useContext(GameContext);
+
     const Players = [
-        {name: props.player1Name, 'function': props.handlePlayerName1},
-        {name: props.player2Name, 'function': props.handlePlayerName2}
+        {name: state.player1Name, 'function': props.handlePlayerName1},
+        {name: state.player2Name, 'function': props.handlePlayerName2}
     ];
 
     return (
@@ -23,15 +26,12 @@ const GamePresentation: React.FC<any> = (props: IProps) => {
             })
         }
         <button type='button' onClick={props.startGame}>Start Game</button>
-        {props.validate() && <Redirect to={`/gameId=${props.gameId}/round`}/>}
+        {props.validate() && <Redirect to={`/round`}/>}
     </div>
     );
 };
 
 interface IProps {
-    gameId: number;
-    player1Name: string;
-    player2Name: string;
     startGame: any;
     handlePlayerName1: any;
     handlePlayerName2: any;

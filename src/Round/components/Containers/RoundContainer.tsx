@@ -1,44 +1,33 @@
-import React, {useReducer, useState, useEffect} from 'react';
-import * as RoundReducer from '../../reducers/round_reducer';
+import React, {useState, useEffect, useContext} from 'react';
 import * as ACTIONS from '../../actions/actions';
 import EndGame from '../../../Game/components/Presentations/EndGame';
 import Rounds from '../Presentation/Rounds';
-import PresentationRound from '../Presentation/RoundPresentation';
+import RoundPresentation from '../Presentation/RoundPresentation';
 import axios from 'axios';
-
+import { GameContext } from '../../../Game/context/context';
+import { RoundContext } from '../../context/context';
 const config = require('../../../../config');
 
-const getGameId = (): number => {
-    const from: number = location.pathname.indexOf('gameId=') + 7;
-    const to: number = location.pathname.lastIndexOf('/') + 1;
-
-    return Number.parseInt(location.pathname.substring(from, to - from + 7));
-};
-
 const RoundContainer: React.FC = () => {
-    const [stateRoundReducer, dispatchRoundReducer] = useReducer(RoundReducer.RoundReducer, RoundReducer.initialState);
-    const [gameId] = useState(getGameId());
-    const [rounds, setRounds] = useState([]);
+    const {state, dispatch} = useContext(RoundContext);
+    const {state: {gameId}} = useContext(GameContext);
 
-    const getPlayer = async () => {
-        const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${stateRoundReducer.currentPlayerNumber}`, config.options);
-        dispatchRoundReducer(ACTIONS.set_current_player_name(response.data.playerName));
-    };
+    const [rounds, setRounds] = useState([]);
 
     const newRound = () => {
         axios.post(`${config.GOD_API}/game/NewRound`, {
-            'Move': stateRoundReducer.currentMove,
+            'Move': state.currentMove,
             'GameId': gameId
         }, config.options)
         .then(response => {
-                dispatchRoundReducer(ACTIONS.add_round(response.data.id));
-                dispatchRoundReducer(ACTIONS.set_current_player_number(2));
+                dispatch(ACTIONS.add_round(response.data.id));
+                dispatch(ACTIONS.set_current_player_number(2));
             });
     };
 
     const completeRound = () => {
-        axios.put(`${config.GOD_API}/game/UpdateRound/${stateRoundReducer.roundId}`, {
-            'lastMove': stateRoundReducer.currentMove
+        axios.put(`${config.GOD_API}/game/UpdateRound/${state.roundId}`, {
+            'lastMove': state.currentMove
         }, config.options)
         .then(response => {
                 const roundUpdates: never[] = [];
@@ -47,16 +36,16 @@ const RoundContainer: React.FC = () => {
                 });
                 setRounds(roundUpdates);
                 if (response.data.endGame) {
-                    dispatchRoundReducer(ACTIONS.end_game());
-                    dispatchRoundReducer(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
+                    dispatch(ACTIONS.end_game());
+                    dispatch(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
                 } else {
-                    dispatchRoundReducer(ACTIONS.set_current_player_number(1));
+                    dispatch(ACTIONS.set_current_player_number(1));
                 }
             });
     };
 
     const proccessRound = () => {
-        if (stateRoundReducer.currentPlayerNumber === 1) {
+        if (state.currentPlayerNumber === 1) {
             newRound();
         } else {
             completeRound();
@@ -64,25 +53,29 @@ const RoundContainer: React.FC = () => {
     };
 
     const handleMove = (moves: string[], event: any) => {
-        dispatchRoundReducer(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
+        dispatch(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
+    };
+
+    const getPlayer = async () => {
+        const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${state.currentPlayerNumber}`, config.options);
+        dispatch(ACTIONS.set_current_player_name(response.data.playerName));
     };
 
     useEffect(() => {
         getPlayer();
-    }, [stateRoundReducer.currentPlayerNumber]);
+    }, [state.currentPlayerNumber]);
 
     return (
         <div>
-            {!stateRoundReducer.endGame && <div>
-                <PresentationRound
-                    roundNumer={rounds.length + 1}
-                    currentPlayer={stateRoundReducer.currentPlayerName}
-                    handleMove={handleMove}
-                    proccessRound={proccessRound}
-                />
+            {!state.endGame && <div>
+                    <RoundPresentation
+                        roundNumer={rounds.length + 1}
+                        handleMove={handleMove}
+                        proccessRound={proccessRound}
+                    />
                 <Rounds rounds={rounds}/>
             </div>}
-            {stateRoundReducer.endGame && <EndGame winnerName={stateRoundReducer.winnerName}/>}
+            {state.endGame && <EndGame/>}
         </div>
     );
 };

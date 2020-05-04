@@ -4,20 +4,25 @@ import RoundContainer from './Round/components/Containers/RoundContainer';
 import {Switch, Route} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import '../styles/index.css';
+import { GameProvider} from './Game/context/context';
+import { RoundProvider } from './Round/context/context';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-        <Switch>
-        <Route path='/gameId=:gameId/round'>
-            <RoundContainer />
-        </Route>
-        <Route path='/'>
-            <GameContainer />
-        </Route>
-        </Switch>
-    </BrowserRouter>
-
+    <GameProvider>
+        <BrowserRouter>
+          <Switch>
+            <Route path='/round'>
+                <RoundProvider>
+                  <RoundContainer />
+                </RoundProvider>
+            </Route>
+            <Route path='/'>
+                <GameContainer />
+            </Route>
+          </Switch>
+      </BrowserRouter>
+    </GameProvider>
   );
 };
 

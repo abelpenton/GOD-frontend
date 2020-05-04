@@ -13,3 +13,10 @@ export const add_player2 = (player: string) => {
         payload: player
     };
 };
+
+export const set_game_id = (gameId: number) => {
+    return {
+        type: ACTION_TYPES.SET_GAME_ID,
+        payload: gameId
+    };
+};
