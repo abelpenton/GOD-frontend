@@ -1,7 +1,8 @@
-import * as ACTION_TYPES from './actions/action_types';
-import { gameState , IGameState} from './state';
+import * as ACTION_TYPES from './action_types';
+import { IGameState, IAction } from 'libs/types';
+import { initState } from './state';
 
-export const GameReducer = (state: IGameState = gameState, action: IAction): IGameState => {
+export const reducer = (state: IGameState = initState, action: IAction): IGameState => {
     switch (action.type) {
         case ACTION_TYPES.SET_PLAYER1_NAME:
             return {
@@ -25,8 +26,3 @@ export const GameReducer = (state: IGameState = gameState, action: IAction): IGa
             return state;
     }
 };
-
-interface IAction {
-    type: string;
-    payload: any;
-}

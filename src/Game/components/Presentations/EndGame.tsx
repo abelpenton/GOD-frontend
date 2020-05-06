@@ -1,10 +1,10 @@
 
 import React, {useState, useContext} from 'react';
 import { Redirect } from 'react-router';
-import { RoundContext } from '../../../Round/context';
+import {  useWinnerName } from '../../../Round/hooks';
 
 const EndGame: React.FC<any> = () => {
-    const {state: {winnerName}} = useContext(RoundContext);
+    const winnerName = useWinnerName();
     const [newGame, setNewGame] = useState(false);
 
     return (

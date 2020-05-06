@@ -1,14 +1,14 @@
-import * as ACTION_TYPES from './actions/action_types';
-import { roundInitialState, IRoundState } from './state';
+import { IRoundState, IAction } from '../../libs/types';
+import * as ACTION_TYPES from './action_types';
+import { initState } from './state';
 
-export const RoundReducer = (state: IRoundState = roundInitialState, action: IAction) => {
+export const reducer = (state: IRoundState = initState, action: IAction) => {
     switch (action.type) {
         case ACTION_TYPES.SET_CURRENT_PLAYER:
             return {
                 ...state,
                 currentPlayerName: action.payload
             };
-
         case ACTION_TYPES.SET_PLAYER_NUMBER:
             return {
                 ...state,
@@ -30,7 +30,7 @@ export const RoundReducer = (state: IRoundState = roundInitialState, action: IAc
         case ACTION_TYPES.END_GAME:
             return {
                 ...state,
-                endGame: true
+                endGame: action.payload
             };
 
         case ACTION_TYPES.SET_WINNER:
@@ -43,8 +43,3 @@ export const RoundReducer = (state: IRoundState = roundInitialState, action: IAc
             return state;
     }
 };
-
-interface IAction {
-    type: string;
-    payload: any;
-}

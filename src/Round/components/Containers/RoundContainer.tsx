@@ -1,16 +1,17 @@
-import React, {useState, useEffect, useContext} from 'react';
-import * as ACTIONS from '../../actions/actions';
+import React, {useState} from 'react';
+import * as ACTIONS from '../../redux/actions';
 import EndGame from '../../../Game/components/Presentations/EndGame';
 import Rounds from '../Presentation/Rounds';
 import RoundPresentation from '../Presentation/RoundPresentation';
 import axios from 'axios';
-import { GameContext } from '../../../Game/context';
-import { RoundContext } from '../../context';
+import { useCurrentPlayer, useRound } from '../../hooks';
+import { useGameId } from '../../../Game/hooks';
 const config = require('../../../../config');
 
 const RoundContainer: React.FC = () => {
-    const {state, dispatch} = useContext(RoundContext);
-    const {state: {gameId}} = useContext(GameContext);
+    const {state, dispatch} = useRound();
+    const gameId = useGameId();
+    const  currentPlayerNumber  = useCurrentPlayer();
 
     const [rounds, setRounds] = useState([]);
 
@@ -36,7 +37,7 @@ const RoundContainer: React.FC = () => {
                 });
                 setRounds(roundUpdates);
                 if (response.data.endGame) {
-                    dispatch(ACTIONS.end_game());
+                    dispatch(ACTIONS.end_game(true));
                     dispatch(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
                 } else {
                     dispatch(ACTIONS.set_current_player_number(1));
@@ -45,7 +46,7 @@ const RoundContainer: React.FC = () => {
     };
 
     const proccessRound = () => {
-        if (state.currentPlayerNumber === 1) {
+        if (currentPlayerNumber === 1) {
             newRound();
         } else {
             completeRound();
@@ -55,15 +56,6 @@ const RoundContainer: React.FC = () => {
     const handleMove = (moves: string[], event: any) => {
         dispatch(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
     };
-
-    const getPlayer = async () => {
-        const response = await axios.get(`${config.GOD_API}/game/GetPlayer/${state.currentPlayerNumber}`, config.options);
-        dispatch(ACTIONS.set_current_player_name(response.data.playerName));
-    };
-
-    useEffect(() => {
-        getPlayer();
-    }, [state.currentPlayerNumber]);
 
     return (
         <div>

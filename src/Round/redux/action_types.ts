@@ -10,3 +10,5 @@ export const SET_ROUND = 'SET_ROUND_ID';
 export const END_GAME = 'SET_END_GAME';
 
 export const SET_WINNER = 'SET_WINNER_NAME';
+
+export const FETCH_PLAYER_NAME = 'FETCH_PLAYER_NAME';

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import GamePresentation from '../Presentations/GamePresentation';
 import axios from 'axios';
-import * as ACTIONS from '../../actions/actions';
-import { GameContext } from '../../context';
+import * as ACTIONS from '../../redux/actions';
+import { useGame } from '../../hooks';
 const config = require('../../../../config');
 
 const GameContainer: React.FC = () => {
-    const {state, dispatch} = useContext(GameContext);
+    const {state, dispatch} = useGame();
 
     const handlePlayerName1 = (name: string) => {
         dispatch(ACTIONS.add_player1(name));

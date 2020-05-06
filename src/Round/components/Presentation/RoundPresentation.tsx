@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import '../../../../styles/index.css';
-import { RoundContext } from '../../context';
-
+import { usePlayerName } from '../../hooks';
 const moves: string[] = ['Rock', 'Papper', 'Scissors'];
 
 const RoundPresentation: React.FC<IProps> = (props: IProps) => {
-    const {state: {currentPlayerName}} = useContext(RoundContext);
+    const currentPlayerName = usePlayerName();
     return (
         <div id='round-presentation'>
             <label>Round {props.roundNumer}</label>
