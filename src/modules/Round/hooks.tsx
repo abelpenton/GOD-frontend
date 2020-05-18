@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react';
-import { RoundContext } from './context';
-import * as ACTIONS from './redux/actions';
 import axios from 'axios';
-const config = require('../../config');
+import { RoundContext } from '@app/Round/context';
+import * as ACTIONS from '@app/Round/redux/actions';
+import * as config from '@utils/config';
 
 export const useRound = () => useContext(RoundContext);
 

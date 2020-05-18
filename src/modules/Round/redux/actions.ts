@@ -1,5 +1,5 @@
-import * as ACTION_TYPES from './action_types';
-import { createAction } from '../../libs/action-creator';
+import * as ACTION_TYPES from '@app/Round/redux/action_types';
+import { createAction } from '@app-types/action-creator';
 
 export const set_current_player_name = createAction<string>(ACTION_TYPES.SET_CURRENT_PLAYER);
 

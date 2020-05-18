@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import GamePresentation from '../Presentations/GamePresentation';
 import axios from 'axios';
-import * as ACTIONS from '../../redux/actions';
-import { useGame } from '../../hooks';
-const config = require('../../../../config');
+import React from 'react';
+import GamePresentation from '@app/Game/components/Presentations/GamePresentation';
+import * as ACTIONS from '@app/Game/redux/actions';
+import { useGame } from '@app/Game/hooks';
+import * as config from '@utils/config';
 
 const GameContainer: React.FC = () => {
     const {state, dispatch} = useGame();

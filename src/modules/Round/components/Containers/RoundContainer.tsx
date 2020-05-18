@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import * as ACTIONS from '../../redux/actions';
-import EndGame from '../../../Game/components/Presentations/EndGame';
-import Rounds from '../Presentation/Rounds';
-import RoundPresentation from '../Presentation/RoundPresentation';
 import axios from 'axios';
-import { useCurrentPlayer, useRound } from '../../hooks';
-import { useGameId } from '../../../Game/hooks';
-const config = require('../../../../config');
+import * as ACTIONS from '@app/Round/redux/actions';
+import EndGame from '@app/Game/components/Presentations/EndGame';
+import Rounds from '@app/Round/components/Presentation/Rounds';
+import RoundPresentation from '@app/Round/components/Presentation/RoundPresentation';
+import { useCurrentPlayer, useRound } from '@app/Round/hooks';
+import { useGameId } from '@app/Game/hooks';
+import * as config from '@utils/config';
 
 const RoundContainer: React.FC = () => {
     const {state, dispatch} = useRound();

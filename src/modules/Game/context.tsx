@@ -1,8 +1,7 @@
 import React, {useReducer, Dispatch} from 'react';
-import {IContextProps} from '../libs/types';
-import {initState} from './redux/state';
-import {reducer} from './redux/reducer';
-import {IGameState} from '../libs/types';
+import {IContextProps} from '@app-types/types';
+import {initState, IGameState} from '@app/Game/redux/state';
+import {reducer} from '@app/Game/redux/reducer';
 
 const GameContext = React.createContext<{state: IGameState, dispatch: Dispatch<any>}>({
     state: initState,

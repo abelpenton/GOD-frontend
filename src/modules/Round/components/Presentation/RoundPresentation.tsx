@@ -1,7 +1,7 @@
 import React from 'react';
 
-import '../../../../styles/index.css';
-import { usePlayerName } from '../../hooks';
+import '../../../../../styles/index.css';
+import { usePlayerName } from '@app/Round/hooks';
 const moves: string[] = ['Rock', 'Papper', 'Scissors'];
 
 const RoundPresentation: React.FC<IProps> = (props: IProps) => {

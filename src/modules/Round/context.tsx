@@ -1,7 +1,7 @@
 import React, { useReducer, Dispatch } from 'react';
-import {reducer} from './redux/reducer';
-import {initState} from './redux/state';
-import {IRoundState, IContextProps} from '../libs/types';
+import {reducer} from '@app/Round/redux/reducer';
+import {initState, IRoundState} from '@app/Round/redux/state';
+import { IContextProps} from '@app-types/types';
 
 const RoundContext = React.createContext<{ state: IRoundState, dispatch: Dispatch<any> }>({
     state: initState,

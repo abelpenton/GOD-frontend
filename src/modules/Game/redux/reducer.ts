@@ -1,6 +1,6 @@
-import * as ACTION_TYPES from './action_types';
-import { IGameState, IAction } from 'libs/types';
-import { initState } from './state';
+import * as ACTION_TYPES from '@app/Game/redux/action_types';
+import { IAction } from '@app-types/types';
+import { initState, IGameState } from '@app/Game/redux/state';
 
 export const reducer = (state: IGameState = initState, action: IAction): IGameState => {
     switch (action.type) {

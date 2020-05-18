@@ -1,7 +1,7 @@
 
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import { Redirect } from 'react-router';
-import {  useWinnerName } from '../../../Round/hooks';
+import { useWinnerName } from '@app/Round/hooks';
 
 const EndGame: React.FC<any> = () => {
     const winnerName = useWinnerName();

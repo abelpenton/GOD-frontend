@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router';
-import { GameContext } from '../../context';
+import { useGame } from '@app/Game/hooks';
 
 const GamePresentation: React.FC<any> = (props: IProps) => {
-    const { state } = useContext(GameContext);
+    const { state } = useGame();
 
     const Players = [
         {name: state.player1Name, 'function': props.handlePlayerName1},

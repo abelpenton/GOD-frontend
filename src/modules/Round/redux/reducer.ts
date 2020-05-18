@@ -1,6 +1,6 @@
-import { IRoundState, IAction } from '../../libs/types';
-import * as ACTION_TYPES from './action_types';
-import { initState } from './state';
+import { IAction } from '@app-types/types';
+import * as ACTION_TYPES from '@app/Round/redux/action_types';
+import { initState, IRoundState } from '@app/Round/redux/state';
 
 export const reducer = (state: IRoundState = initState, action: IAction) => {
     switch (action.type) {

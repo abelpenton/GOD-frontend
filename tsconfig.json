@@ -18,7 +18,13 @@
 		"esModuleInterop": true,
 		// use typescript to transpile jsx to js
 		"jsx": "react",
-		"baseUrl": "./src",
+		"baseUrl": ".",
+		"paths": {
+			"@app-types/*":["src/libs/*"],
+			"@app/*": ["src/modules/*"],
+			"@utils/*": ["utils/*"],
+			"@app-styles/*": ["styles/*"]
+		},
 		"lib": [
 			"es2015",
 			"dom.iterable",

@@ -1,5 +1,5 @@
-import * as ACTION_TYPES from './action_types';
-import { createAction } from '../../libs/action-creator';
+import * as ACTION_TYPES from '@app/Game/redux/action_types';
+import { createAction } from '@app-types/action-creator';
 
 const add_player1 = createAction<string>(ACTION_TYPES.SET_PLAYER1_NAME);
 
