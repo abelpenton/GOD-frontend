@@ -1,10 +1,10 @@
-import axios from 'axios';
 import React from 'react';
 import GamePresentation from '@app/Game/components/Presentations/GamePresentation';
 import * as ACTIONS from '@app/Game/redux/actions';
 import { useGame } from '@app/Game/hooks';
-import * as config from '@utils/config';
+import {gameService} from '@utils/services';
 
+const service  = gameService();
 const GameContainer: React.FC = () => {
     const {state, dispatch} = useGame();
 
@@ -16,14 +16,9 @@ const GameContainer: React.FC = () => {
         return state.player1Name !== '' && state.player2Name !== '' && state.gameId !== -1;
     };
 
-    const startGame = () => {
-        axios.post(`${config.GOD_API}/Game/NewGame`, {
-            'Player1': state.player1Name,
-            'Player2': state.player2Name
-        }, config.options)
-            .then(response => {
-                dispatch(ACTIONS.set_game_id(response.data.id));
-            });
+    const startGame = async () => {
+        const response = await service.post(state.player1Name, state.player2Name);
+        dispatch(ACTIONS.set_game_id(response.data.id));
     };
 
     return (
