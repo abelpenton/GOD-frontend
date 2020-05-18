@@ -39,6 +39,12 @@ export const reducer = (state: IRoundState = initState, action: IAction) => {
                 winnerName: action.payload
             };
 
+        case ACTION_TYPES.ADD_ROUND:
+            return {
+                ...state,
+                rounds: action.payload
+            };
+
         default:
             return state;
     }

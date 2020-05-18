@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import * as ACTIONS from '@app/Round/redux/actions';
 import EndGame from '@app/Game/components/Presentations/EndGame';
@@ -7,13 +7,12 @@ import RoundPresentation from '@app/Round/components/Presentation/RoundPresentat
 import { useCurrentPlayer, useRound } from '@app/Round/hooks';
 import { useGameId } from '@app/Game/hooks';
 import * as config from '@utils/config';
+import { moves } from '@utils/utils-contants';
 
 const RoundContainer: React.FC = () => {
-    const {state, dispatch} = useRound();
+    const { state, dispatch } = useRound();
     const gameId = useGameId();
-    const  currentPlayerNumber  = useCurrentPlayer();
-
-    const [rounds, setRounds] = useState([]);
+    const currentPlayerNumber = useCurrentPlayer();
 
     const newRound = () => {
         axios.post(`${config.GOD_API}/game/NewRound`, {
@@ -21,9 +20,9 @@ const RoundContainer: React.FC = () => {
             'GameId': gameId
         }, config.options)
         .then(response => {
-                dispatch(ACTIONS.add_round(response.data.id));
-                dispatch(ACTIONS.set_current_player_number(2));
-            });
+            dispatch(ACTIONS.set_round(response.data.id));
+            dispatch(ACTIONS.set_current_player_number(2));
+        });
     };
 
     const completeRound = () => {
@@ -31,43 +30,30 @@ const RoundContainer: React.FC = () => {
             'lastMove': state.currentMove
         }, config.options)
         .then(response => {
-                const roundUpdates: never[] = [];
-                response.data.rounds.map(({playerRoundWinnerName}: never) => {
-                    roundUpdates.push(playerRoundWinnerName);
-                });
-                setRounds(roundUpdates);
-                if (response.data.endGame) {
-                    dispatch(ACTIONS.end_game(true));
-                    dispatch(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
-                } else {
-                    dispatch(ACTIONS.set_current_player_number(1));
-                }
-            });
+            dispatch(ACTIONS.add_round(response.data.rounds.map(({ playerRoundWinnerName }: never) => playerRoundWinnerName)));
+            if (response.data.endGame) {
+                dispatch(ACTIONS.end_game(true));
+                dispatch(ACTIONS.set_winner_game(response.data.playerGameWinnerName));
+            } else {
+                dispatch(ACTIONS.set_current_player_number(1));
+            }
+        });
     };
 
-    const proccessRound = () => {
-        if (currentPlayerNumber === 1) {
-            newRound();
-        } else {
-            completeRound();
-        }
-    };
+    const proccessRound = () => currentPlayerNumber === 1 ? newRound() : completeRound();
 
-    const handleMove = (moves: string[], event: any) => {
-        dispatch(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
-    };
+    const handleMove = (event: React.ChangeEvent<HTMLSelectElement>) =>  dispatch(ACTIONS.set_current_move(moves.indexOf(event.target.value) + 1));
 
     return (
         <div>
             {!state.endGame && <div>
-                    <RoundPresentation
-                        roundNumer={rounds.length + 1}
-                        handleMove={handleMove}
-                        proccessRound={proccessRound}
-                    />
-                <Rounds rounds={rounds}/>
+                <RoundPresentation
+                    handleMove={handleMove}
+                    proccessRound={proccessRound}
+                />
+                <Rounds/>
             </div>}
-            {state.endGame && <EndGame/>}
+            {state.endGame && <EndGame />}
         </div>
     );
 };

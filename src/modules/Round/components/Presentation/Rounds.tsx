@@ -1,7 +1,9 @@
 import React from 'react';
 import '../../../../../styles/index.css';
+import { useRounds } from '@app/Round/hooks';
 
-const Rounds: React.FC<any> = ( {rounds} ) => {
+const Rounds: React.FC<{}> = () => {
+    const rounds = useRounds();
     return (
         <div>
             <h1>Score</h1>

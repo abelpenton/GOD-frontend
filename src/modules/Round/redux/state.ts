@@ -5,7 +5,7 @@ interface IRoundState {
     roundId: number;
     endGame: boolean;
     winnerName: string;
-    rounds: any[];
+    rounds: string[];
 }
 
 const initState: IRoundState = {

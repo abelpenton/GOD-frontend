@@ -8,12 +8,8 @@ import * as config from '@utils/config';
 const GameContainer: React.FC = () => {
     const {state, dispatch} = useGame();
 
-    const handlePlayerName1 = (name: string) => {
-        dispatch(ACTIONS.add_player1(name));
-    };
-
-    const handlePlayerName2 = (name: string) => {
-        dispatch(ACTIONS.add_player2(name));
+    const handlePlayerName = (name: string, playerNumber: number) => {
+        playerNumber === 1 ? dispatch(ACTIONS.add_player1(name)) : dispatch(ACTIONS.add_player2(name));
     };
 
     const validate = (): boolean => {
@@ -33,8 +29,7 @@ const GameContainer: React.FC = () => {
     return (
         <GamePresentation
             startGame={startGame}
-            handlePlayerName1={handlePlayerName1}
-            handlePlayerName2={handlePlayerName2}
+            handlePlayerName={handlePlayerName}
             validate={validate}
         />
     );

@@ -14,7 +14,6 @@ export const useCurrentPlayer = () => {
             `${config.GOD_API}/game/GetPlayer/${currentPlayerNumber}`,
             config.options
         ).then(response => {
-            console.log(response.data.playerName);
             dispatch(ACTIONS.set_current_player_name(response.data.playerName));
         });
     }, [currentPlayerNumber]);
@@ -25,3 +24,5 @@ export const useCurrentPlayer = () => {
 export const usePlayerName = () => useRound().state.currentPlayerName;
 
 export const useWinnerName = () => useRound().state.winnerName;
+
+export const useRounds = () => useRound().state.rounds;

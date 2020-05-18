@@ -1,36 +1,34 @@
 import React from 'react';
 
 import '../../../../../styles/index.css';
-import { usePlayerName } from '@app/Round/hooks';
-const moves: string[] = ['Rock', 'Papper', 'Scissors'];
+import { usePlayerName, useRounds } from '@app/Round/hooks';
+import { moves } from '@utils/utils-contants';
 
 const RoundPresentation: React.FC<IProps> = (props: IProps) => {
     const currentPlayerName = usePlayerName();
+    const round = useRounds().length;
     return (
         <div id='round-presentation'>
-            <label>Round {props.roundNumer}</label>
-            <br/>
-            <br/>
+            <label>Round {round}</label>
+            <br />
+            <br />
             <label>{currentPlayerName}</label>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <label>Select Move</label>
-            <select id='select-id' onChange={e => props.handleMove(moves, e)}>
-                {moves.map((value, index) => {
-                return (<option key={index + 1} value={value}>{value}</option>);
-                })}
+            <select id='select-id' onChange={e => props.handleMove(e)}>
+                {moves.map((value, index) => (<option key={index + 1} value={value}>{value}</option>))}
             </select>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <button type='button' onClick={props.proccessRound}>Ok</button>
         </div>
     );
 };
 
 interface IProps {
-    roundNumer: number;
-    handleMove: any;
-    proccessRound: any;
+    handleMove: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    proccessRound: () => void;
 }
 
 export default RoundPresentation;

@@ -1,11 +1,10 @@
 import React from 'react';
-import GameContainer from './modules/Game/components/Containers/GameContainer';
-import RoundContainer from './modules/Round/components/Containers/RoundContainer';
 import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
-import '../styles/index.css';
-import { GameProvider } from './modules/Game/context';
-import { RoundProvider } from './modules/Round/context';
+import GameContainer from '@app/Game/components/Containers/GameContainer';
+import RoundContainer from '@app/Round/components/Containers/RoundContainer';
+import { GameProvider } from '@app/Game/context';
+import { RoundProvider } from '@app/Round/context';
 
 const App: React.FC = () => {
   return (
