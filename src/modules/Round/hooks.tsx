@@ -1,22 +1,21 @@
-import { useContext, useEffect } from 'react';
-import axios from 'axios';
+import { useContext, useEffect, useCallback } from 'react';
 import { RoundContext } from '@app/Round/context';
 import * as ACTIONS from '@app/Round/redux/actions';
-import * as config from '@utils/config';
+import { gameService } from '@utils/services';
 
 export const useRound = () => useContext(RoundContext);
-
+const service = gameService();
 export const useCurrentPlayer = () => {
     const { state: { currentPlayerNumber }, dispatch } = useRound();
 
-    useEffect(() => {
-        axios.get(
-            `${config.GOD_API}/game/GetPlayer/${currentPlayerNumber}`,
-            config.options
-        ).then(response => {
-            dispatch(ACTIONS.set_current_player_name(response.data.playerName));
-        });
+    const getPlayer = useCallback(async () => {
+        const response = await service.get(currentPlayerNumber);
+        dispatch(ACTIONS.set_current_player_name(response.data.playerName));
     }, [currentPlayerNumber]);
+
+    useEffect(() => {
+        getPlayer();
+    }, [getPlayer]);
 
     return currentPlayerNumber;
 };

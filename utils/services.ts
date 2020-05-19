@@ -21,12 +21,20 @@ export const roundService = () => {
 
 export const gameService = () => {
     const createGame = async (player1: string, player2: string) => {
-        return await axios.post(`${config.GOD_API}/Game/NewGame`, {
+        return await axios.post(`${config.GOD_API}/game/NewGame`, {
             'Player1': player1,
             'Player2': player2
         }, config.options);
     };
+
+    const getPlayer = async (playerNumber: number) => {
+        return await axios.get(
+            `${config.GOD_API}/game/GetPlayer/${playerNumber}`,
+            config.options
+        );
+    };
     return {
-        post: createGame
+        post: createGame,
+        get: getPlayer
     };
 };
