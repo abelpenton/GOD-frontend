@@ -1,25 +1,16 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { useGame } from '@app/Game/hooks';
+import { usePlayers } from '@app/Game/hooks';
+import PlayerInput from '@app/Game/components/Presentations/PlayerInput';
 
 const GamePresentation: React.FC<IProps> = (props: IProps) => {
-    const { state } = useGame();
-    const players = [state.player1Name, state.player2Name];
+    const players = usePlayers();
 
     return (
         <div>
             <h1>Enter Player's Name</h1>
             {
-                players.map((name, index) => {
-                    return (
-                        <div key={index + 1}>
-                            <label>Player {index + 1}</label>
-                            <input type='text' placeholder={`Enter Player ${index + 1} Name`} value={name} onChange={e => props.handlePlayerName(e.target.value, index + 1)} />
-                            <br />
-                            <br />
-                        </div>
-                    );
-                })
+                players.map((name, index) => <PlayerInput name={name} index={index} handlePlayerName={props.handlePlayerName}/>)
             }
             <button type='button' onClick={props.startGame}>Start Game</button>
             {props.validate() && <Redirect to={`/round`} />}

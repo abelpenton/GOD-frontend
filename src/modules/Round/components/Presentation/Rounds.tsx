@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../../../../styles/index.css';
 import { useRounds } from '@app/Round/hooks';
+import RoundItem from '@app/Round/components/Presentation/RoundItem';
 
 const Rounds: React.FC<{}> = () => {
     const rounds = useRounds();
@@ -12,14 +13,7 @@ const Rounds: React.FC<{}> = () => {
                 <h2 id='winner'>Winner</h2>
             </div>
             <div id='rounds'>
-                {rounds.map((item: string, index: number) => {
-                    return (
-                        <div key={index + 1}>
-                            <label>{index + 1}</label>
-                            <label style={{marginLeft: '3rem'}}>{item}</label>
-                        </div>
-                    );
-                })}
+                {rounds.map((item: string, index: number) => <RoundItem name={item} index={index} />)}
             </div>
         </div>
     );
