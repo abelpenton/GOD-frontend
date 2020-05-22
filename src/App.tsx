@@ -11,13 +11,13 @@ const App: React.FC = () => {
     <GameProvider>
       <BrowserRouter>
         <Switch>
+          <Route exact path='/'>
+            <GameContainer />
+          </Route>
           <Route path='/round'>
             <RoundProvider>
               <RoundContainer />
             </RoundProvider>
-          </Route>
-          <Route path='/'>
-            <GameContainer />
           </Route>
         </Switch>
       </BrowserRouter>

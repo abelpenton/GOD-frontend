@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import { usePlayers } from '@app/Game/hooks';
 import PlayerInput from '@app/Game/components/Presentations/PlayerInput';
 
@@ -13,7 +12,6 @@ const GamePresentation: React.FC<IProps> = (props: IProps) => {
                 players.map((name, index) => <PlayerInput name={name} index={index} handlePlayerName={props.handlePlayerName}/>)
             }
             <button type='button' onClick={props.startGame}>Start Game</button>
-            {props.validate() && <Redirect to={`/round`} />}
         </div>
     );
 };
@@ -21,7 +19,6 @@ const GamePresentation: React.FC<IProps> = (props: IProps) => {
 interface IProps {
     startGame: () => void;
     handlePlayerName: (name: string, playerNumber: number) => void;
-    validate: () => boolean;
 }
 
 export default GamePresentation;
